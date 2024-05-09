@@ -1,0 +1,91 @@
+{% extends 'main_t/base.html' %}
+
+{% block title %} Ajouter | Enseignant {% endblock %}
+{% block content %}
+{% load static %}
+{% if start %}
+<form method="post" class="mt-4" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="title" class="form-label">Titre</label>
+        <input type="text" class="form-control" id="title" name="title" required value="{{ course.title }}">
+    </div>
+    <div class="mb-3">
+        <label for="subject" class="form-label">Matière</label>
+        <select class="form-select" id="subject" name="subject" required>
+            <option value="" disabled>Sélectionner la matière</option>
+            <option value="MSI" {% if course.subject == 'MSI' %} selected {% endif %}>MSI</option>
+            <option value="MATH" {% if course.subject == 'MATH' %} selected {% endif %}>MATH</option>
+            <option value="BACKEND" {% if course.subject == 'BACKEND' %} selected {% endif %}>BACKEND</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="classe" class="form-label">Classe</label>
+        <select class="form-select" id="classe" name="classe" required>
+            <option value="" disabled>Sélectionner la classe</option>
+            <option value="DUT1" {% if course.classe == 'DUT1' %} selected {% endif %}>DUT1</option>
+            <option value="DUT2" {% if course.classe == 'DUT2' %} selected {% endif %}>DUT2</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <small class="text-muted">(Maximum 100 caractères)</small>
+        <textarea class="form-control" id="description" name="description" rows="5" maxlength="100" required>{{ course.description }}</textarea>
+    </div>    
+    <div class="mb-3">
+        <label for="image" class="form-label">Ajouter une miniature</label>
+        <small class="text-muted">(maximum : 10MB)</small>
+        <input type="file" class="form-control" id="image" name="image" accept="image/jpeg, image/png" required>
+    </div>
+    <div class="mb-3">
+        <label for="video" class="form-label">Ajouter la vidéo</label>
+        <small class="text-muted">(maximum : 20MB)</small>
+        <input type="file" class="form-control" id="video" name="video" accept="video/mp4" required>
+    </div>
+    <button type="submit" class="btn btn-primary">+Ajouter</button>
+</form>
+
+{% elif fail %}
+<form method="post" class="mt-4" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="alert alert-danger" role="alert">Video non mise en ligne</div>
+    <div class="mb-3">
+        <label for="title" class="form-label">Titre</label>
+        <input type="text" class="form-control" id="title" name="title" required>
+    </div>
+    <div class="mb-3">
+        <label for="subject" class="form-label">Matière</label>
+        <select class="form-select" id="subject" name="subject" required>
+            <option value="" disabled selected>Sélectionner la matière</option>
+            <option value="MSI">MSI</option>
+            <option value="Math">MATH</option>
+            <option value="BACKEND">BACKEND</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="classe" class="form-label">Classe</label>
+        <select class="form-select" id="classe" name="classe" required>
+            <option value="" disabled selected>Sélectionner la classe</option>
+            <option value="Class A">DUT1</option>
+            <option value="Class B">DUT2</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <small class="text-muted">(Maximum 100 caractères)</small>
+        <textarea class="form-control" id="description" name="description" rows="5" maxlength="100" required></textarea>
+    </div>    
+    <div class="mb-3">
+        <label for="image" class="form-label">Ajouter une miniature</label>
+        <small class="text-muted">(maximum : 10MB)</small>
+        <input type="file" class="form-control" id="image" name="image" accept="image/jpeg, image/png" required>
+    </div>
+    <div class="mb-3">
+        <label for="video" class="form-label">Ajouter la vidéo</label>
+        <small class="text-muted">(maximum : 20MB)</small>
+        <input type="file" class="form-control" id="video" name="video" accept="video/mp4" required>
+    </div>
+    <button type="submit" class="btn btn-primary">+Ajouter</button>
+</form>
+{% endif %}
+{% endblock %}

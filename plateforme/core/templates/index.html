@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %} Plateforme E-Learning {% endblock %}</title>
+  <!-- Bootstrap CSS -->
+  {% load static %}
+    <link rel="shortcut icon" href="{% static 'test/logo_esp.ico' %}" type="image/x-icon">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <style>
+    body {
+        background-color: #f5f5f5; 
+        padding-bottom: 70px; 
+    }
+
+    .navbar-brand {
+        color: #ffffff;
+        font-weight: bold;
+    }
+
+    .navbar {
+        background-color: #0d6efd; 
+    }
+
+    .login-container {
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #d3d3d3; 
+        border-radius: 10px;
+        background-color: #ffffff; 
+    }
+
+    .login-title {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #0d6efd; 
+    }
+
+    .form-control {
+        margin-bottom: 15px;
+    }
+
+    .btn-primary {
+        background-color: #0d6efd; 
+        border-color: #0b50b8; 
+    }
+
+    .btn-primary:hover {
+        background-color: #0d6efd;
+        border-color: #0b50b8;
+    } 
+
+    .forgot-password-link {
+        color: #6c757d; 
+    }
+
+    .forgot-password-link:hover {
+        color: #495057; 
+    }
+
+    .footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: #0d6efd; 
+        color: #ffffff; 
+        text-align: center;
+        padding: 10px 0;
+        z-index: 999; 
+    }
+
+    
+    .navbar-nav .navbar-text,
+    .navbar-nav .nav-link {
+        margin-right: 10px; 
+        color: #f5f5f5; 
+    }
+    .card-img-top{
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50px;
+    padding: 20px;
+    }
+    .card{
+        border-radius: 30px;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+    }
+    .card-body{
+        padding: 25px;
+        margin-top: -15px;
+    }
+    .btn-primary{
+        border-radius: 50px;
+        width: 120px;
+    }
+    .btn-primary:hover{
+        background-color: black;
+        border: none;
+    }
+    h3,h5{
+        color: rgb(0, 91, 228);
+    }
+    .video-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    overflow: hidden;
+}
+
+.video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.Teacher, .Student {
+        border: 2px solid #0d6efd; 
+        border-radius: 10px; 
+        padding: 10px; 
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
+        color: #0d6efd;
+        transition: transform 0.3s ease;
+    }
+    .Teacher:hover, .Student:hover {
+        border: 2px solid #000; 
+        color: #000;
+        transform: scale(1.02); 
+    }
+    .Teacher img, .Student img {
+        transition: transform 0.3s ease;
+    }
+    .Teacher:hover img, .Student:hover img {
+        transform: scale(1.02);
+    }
+</style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="." style="color: #f5f5f5;">
+                <img src="{% static 'test/logo_esp.svg' %}" alt="Logo" height="29">
+                &nbsp; École Supérieure Polytechnique</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/enseignant/login" style="color: #f5f5f5;">Enseignant</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/etudiant/login" style="color: #f5f5f5;">Etudiant</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #f5f5f5;">
+                            <img src="{% static 'test/new_account.svg' %}" alt="Account Icon" width="24" height="24">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+
+      <div class="container">
+        {% block content %}
+        <div class="row justify-content-between border-primary">
+            <div class="col-lg-6 mt-3">
+                <h1 class="text-center">Enseignant</h1>
+                <div class="Teacher">
+                    <a href="/enseignant">
+                        <img src="{% static 'test/Teacher.jpg' %}" class="img-fluid" alt="Teacher Image">
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 mt-3">
+                <h1 class="text-center">Etudiant</h1>
+                <div class="Student">
+                    <a href="/etudiant">
+                        <img src="{% static 'test/Student.jpg' %}" class="img-fluid" alt="Student Image">
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endblock %}
+      </div>
+        
+
+      <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 École Supérieure Polytechnique. All rights reserved.</p>
+        </div>
+    </footer>
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
