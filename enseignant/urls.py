@@ -15,4 +15,8 @@ urlpatterns = [
     path('cours/delete/<int:id>', views.delete_course, name='delete_course'),
     path('cours/update/<int:id>', views.update_course, name='update_course'),
     path('cours/media/<int:id>', views.video_page, name='media_course'),
+    path('devoir', views.display_devoir_t, name='devoir_t'),
+    path('devoir/add', views.add_devoir, name='add_devoir_enseignant'),
+    path('devoir/download/<int:id>', views.download_devoir_t, name='download_t'),
+    path('devoir/delete/<int:id>', views.delete_devoir, name='delete_devoir'),
 ]

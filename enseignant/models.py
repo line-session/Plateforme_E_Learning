@@ -33,6 +33,7 @@ class model_Devoir(models.Model):
     teacher = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    duration = models.IntegerField()
     document_file = models.FileField(upload_to='documents/')
 
     def delete(self, *args, **kwargs):

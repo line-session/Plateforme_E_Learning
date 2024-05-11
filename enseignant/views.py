@@ -58,26 +58,6 @@ def logout_views(request):
     logout(request)
     return redirect('/enseignant/login')
 
-# @login_required(login_url='/enseignant/login')
-# def cours(request):
-#     if request.method == "GET":
-#         v_teacher = request.user
-#         ensemble = model_Cours.objects.filter(teacher=v_teacher).order_by('-id')
-#         if ensemble:
-#             need = [{
-#                 "id": cours.id,
-#                 "title": cours.title,
-#                 "description": cours.description,
-#                 "subject": cours.subject,
-#                 "classe": cours.classe,
-#                 "image_file": cours.image_file,
-#             } for cours in ensemble]
-#             return render(request, 'cours_t/cours.html', {'all_cours': need})
-#         else:
-#             return render(request, 'cours_t/cours.html', {'all_cours': []})
-#     else: 
-#         return redirect('/enseignant/home')
-
 @login_required(login_url='/enseignant/login')
 def cours(request):
     if request.method == "GET":
@@ -223,35 +203,63 @@ def display_devoir_t(request):
          ensemble = model_Devoir.objects.filter(teacher=v_teacher).order_by('-id')
          if ensemble:
              need = [{
-                 "id": cours.id,
-                 "title": cours.title,
-                 "description": cours.description,
-                 "subject": cours.subject,
-                 "classe": cours.classe,
-                 "duration": cours.duration,
-             } for cours in ensemble]
-             return render(request, 'cours_t/cours.html', {'all_cours': need})
+                 "id": devoir.id,
+                 "title": devoir.title,
+                 "description": devoir.description,
+                 "subject": devoir.subject,
+                 "classe": devoir.classe,
+                 "duration": devoir.duration,
+                 "teacher": devoir.teacher,
+             } for devoir in ensemble]
+             return render(request, 'devoir_t/devoir.html', {'all_devoir': need})
          else:
-             return render(request, 'cours_t/cours.html', {'all_cours': []})
+             return render(request, 'devoir_t/devoir.html', {'all_devoir': []})
      else: 
          return redirect('/enseignant/home')
+     
+def add_devoir(request):
+    if request.method == "POST":
+        v_teacher = request.user
+        v_title = request.POST.get('title')
+        v_subject = request.POST.get('subject')
+        v_description = request.POST.get('description')
+        v_classe = request.POST.get('classe')
+        v_duration = request.POST.get('duration')
+        v_document_file = request.FILES.get('document')
+
+        new_devoir = model_Devoir.objects.create(
+            title = v_title,
+            subject = v_subject,
+            teacher = v_teacher,
+            description = v_description,
+            classe = v_classe,
+            duration = v_duration,
+            document_file = v_document_file
+        )
+
+        if new_devoir:
+            return redirect(f'/enseignant/devoir')
+        else:
+            return render(request, 'devoir_t/add.html', {'fail':True})
+        
+    return render(request, 'devoir_t/add.html', {'start':True})
 
 
 def download_devoir_t(request, id):
     devoir = get_object_or_404(model_Devoir, pk=id)
     path = devoir.document_file.path
 
-    # Determine the file extension
     _, extension = os.path.splitext(path)
 
-    # Open the file as binary data
     with open(path, 'rb') as document_file:
-        # Create an HTTP response with the file as content
         response = HttpResponse(document_file.read(), content_type='application/octet-stream')
 
-    # Set the Content-Disposition header to force download
-    filename = slugify(devoir.title) + extension.lower()  # Use slugified title with original extension
+    filename = slugify(devoir.title) + extension.lower() 
     response['Content-Disposition'] = f'attachment; filename="{filename}"'
 
     return response
 
+def delete_devoir(request, id):
+    devoir = get_object_or_404(model_Devoir, id=id)
+    devoir.delete()
+    return redirect('/enseignant/devoir')  

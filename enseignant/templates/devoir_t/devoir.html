@@ -1,0 +1,38 @@
+{% extends 'main_t/base.html' %}
+
+{% block title %} Devoir | Enseignant {% endblock %}
+{% block content %}
+<div class="mt-3">
+    <a href="{% url 'add_devoir_enseignant' %}" class="btn btn-warning rounded-5">+Nouveau Devoir</a>
+</div>
+    {% for devoir in all_devoir %}
+    <div class="mb-3 mt-3">
+        <span class="badge {% if devoir.classe == 'DUT1' %} bg-primary {% else %} bg-success {% endif %}">{{ devoir.classe }}</span>
+    </div>
+    <div class="card text-center rounded-0 {% if devoir.classe == 'DUT1' %} border-primary {% else %} border-success {% endif %}">
+        <div class="card-header">
+          Dr {{ devoir.teacher.first_name }} {{ devoir.teacher.last_name }}
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{ devoir.title|capfirst }}</h5>
+          <p class="card-text">{{ devoir.description|capfirst }}</p>
+          <div class="col">
+              <a href="{% url 'download_t' devoir.id %}" class="btn {% if devoir.classe == 'DUT1' %} btn-outline-primary {% else %} btn-outline-success {% endif %} rounded-5">Télécharger</a>
+              &nbsp;<a class="btn btn-outline-danger rounded-5" onclick="confirmDeleteDevoir()">Supprimer</a>
+          </div>
+        </div>
+        <div class="card-footer text-body-secondary">
+           {% if devoir.duration > 1 %} {{ devoir.duration }} heures de temps {% else %} {{ devoir.duration }} heure de temps {% endif %} 
+        </div>
+      </div>
+    <script>
+        function confirmDeleteDevoir() {
+        if (confirm("Voulez-vous vraiment supprimer ce devoir?")) {
+            window.location.href = "{% url 'delete_devoir' devoir.id %}";
+        } else {
+            return false;
+        }
+    }
+    </script>
+    {% endfor %}
+{% endblock %}
