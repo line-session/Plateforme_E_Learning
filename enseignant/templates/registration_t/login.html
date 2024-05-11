@@ -4,7 +4,7 @@
 {% block content %}
 {% if error %}
 <div class="container">
-  <div class="login-container">
+  <div class="login-container border-primary">
     <h2 class="login-title">Portal Enseignant</h2>
     <form method="post">
       {% csrf_token %}
@@ -15,14 +15,14 @@
       <div class="mb-3">
         <input type="password" required class="form-control" id="password" name="password" placeholder="Password">
       </div>
-      <button type="submit" class="btn btn-primary w-100">Login</button>
+      <button type="submit" class="btn btn-outline-primary w-100">Login</button>
       <p class="text-center mt-3">Vous n'avez pas de compte? <a href="/enseignant/sign-up" class="forgot-password-link">Inscrivez-vous</a></p>
     </form>
   </div>
 </div>
 {% else %}
     <div class="container">
-        <div class="login-container">
+        <div class="login-container border-primary">
           <h2 class="login-title">Portal Enseignant</h2>
           <form method="post"> 
             {% csrf_token %}
@@ -32,7 +32,7 @@
             <div class="mb-3">
               <input type="password" required class="form-control" id="password" name="password" placeholder="Password">
             </div>
-            <button type="submit" class="btn btn-primary w-100">Login</button>
+            <button type="submit" class="btn btn-outline-primary w-100">Login</button>
             <p class="text-center mt-3">Vous n'avez pas de compte? <a href="/enseignant/sign-up" class="forgot-password-link">Inscrivez-vous</a></p>
           </form>
         </div>

@@ -34,7 +34,7 @@
     </div>    
     <div class="mb-3">
         <label for="image" class="form-label">Ajouter une miniature</label>
-        <small class="text-muted">(maximum : 10MB)</small>
+        <small class="text-muted">(maximum : 5MB)</small>
         <input type="file" class="form-control" id="image" name="image" accept="image/jpeg, image/png" required>
     </div>
     <div class="mb-3">
@@ -42,7 +42,10 @@
         <small class="text-muted">(maximum : 20MB)</small>
         <input type="file" class="form-control" id="video" name="video" accept="video/mp4" required>
     </div>
-    <button type="submit" class="btn btn-primary">+Ajouter</button>
+    <div class="d-flex justify-content-between mb-5 mt-4">
+        <a href="/enseignant/cours" class="btn btn-outline-dark">Annuler</a>
+        <button type="submit" class="btn btn-outline-primary rounded-5">Modifier</button>
+    </div>
 </form>
 
 {% elif fail %}
@@ -77,7 +80,7 @@
     </div>    
     <div class="mb-3">
         <label for="image" class="form-label">Ajouter une miniature</label>
-        <small class="text-muted">(maximum : 10MB)</small>
+        <small class="text-muted">(maximum : 5MB)</small>
         <input type="file" class="form-control" id="image" name="image" accept="image/jpeg, image/png" required>
     </div>
     <div class="mb-3">
@@ -85,7 +88,32 @@
         <small class="text-muted">(maximum : 20MB)</small>
         <input type="file" class="form-control" id="video" name="video" accept="video/mp4" required>
     </div>
-    <button type="submit" class="btn btn-primary">+Ajouter</button>
+    <div class="d-flex justify-content-between mb-5 mt-4">
+        <a href="/enseignant/cours" class="btn btn-outline-dark">Annuler</a>
+        <button type="submit" class="btn btn-outline-primary rounded-5">Modifier</button>
+    </div>
 </form>
 {% endif %}
+<script>
+    const imageInput = document.getElementById('image');
+
+    imageInput.addEventListener('change', function() {
+        const file1 = this.files[0];
+        const maxSize = 5 * 1024 * 1024; 
+        if (file1.size > maxSize) {
+            alert('Le fichier dépasse la taille maximale autorisée (5MB). Veuillez choisir un fichier plus petit.');
+            this.value = '';
+        }
+    });
+    const videoInput = document.getElementById('video');
+
+    videoInput.addEventListener('change', function() {
+    const file2 = this.files[0];
+    const maxSize = 20 * 1024 * 1024; 
+    if (file2.size > maxSize) {
+        alert('Le fichier dépasse la taille maximale autorisée (20MB). Veuillez choisir un fichier plus petit.');
+        this.value = '';
+    }
+});
+</script>
 {% endblock %}

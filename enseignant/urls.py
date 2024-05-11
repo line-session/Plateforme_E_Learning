@@ -11,6 +11,7 @@ urlpatterns = [
     path('handle', views.logout_views, name='logout_enseignant'),
     path('cours', views.cours, name='cours_enseignant'),
     path('cours/add', views.add, name='add_cours_enseignant'),
+    path('cours/search', views.search, name='search_t'),
     path('cours/delete/<int:id>', views.delete_course, name='delete_course'),
     path('cours/update/<int:id>', views.update_course, name='update_course'),
     path('cours/media/<int:id>', views.video_page, name='media_course'),

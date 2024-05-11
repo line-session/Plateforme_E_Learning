@@ -4,7 +4,7 @@
 {% block content %}
 {% if exist %}
 <div class="container">
-    <div class="login-container">
+    <div class="login-container border-primary">
       <h2 class="login-title">Portail Enseignant</h2>
       <form action="/enseignant/sign-up" method="post">
           {% csrf_token %}
@@ -27,14 +27,14 @@
           <div class="mb-3">
             <input type="password" required class="form-control" name="password2" placeholder="Confirmer Mot de passe">
           </div>
-          <button type="submit" class="btn btn-primary w-100">S'inscrire</button>
+          <button type="submit" class="btn btn-outline-primary w-100">S'inscrire</button>
           <p class="text-center mt-3">Vous avez un compte? <a href="/enseignant/login" class="forgot-password-link">Se connecter</a></p>
       </form>
     </div>
   </div>
 {% elif error %}
 <div class="container">
-    <div class="login-container">
+    <div class="login-container border-primary">
       <h2 class="login-title">Portail Enseignant</h2>
       <form action="/enseignant/sign-up" method="post">
           {% csrf_token %}
@@ -57,14 +57,14 @@
           <div class="mb-3">
             <input type="password" required class="form-control" name="password2" placeholder="Confirmer Mot de passe">
           </div>
-          <button type="submit" class="btn btn-primary w-100">S'inscrire</button>
+          <button type="submit" class="btn btn-outline-primary w-100">S'inscrire</button>
           <p class="text-center mt-3">Vous avez un compte? <a href="/enseignant/login" class="forgot-password-link">Se connecter</a></p>
       </form>
     </div>
   </div>
 {% else %}
 <div class="container">
-    <div class="login-container">
+    <div class="login-container border-primary">
       <h2 class="login-title">Portail Enseignant</h2>
       <form action="/enseignant/sign-up" method="post">
           {% csrf_token %}
@@ -86,7 +86,7 @@
           <div class="mb-3">
             <input type="password" required class="form-control" name="password2" placeholder="Confirmer Mot de passe">
           </div>
-          <button type="submit" class="btn btn-primary w-100">S'inscrire</button>
+          <button type="submit" class="btn btn-outline-primary w-100">S'inscrire</button>
           <p class="text-center mt-3">Vous avez un compte? <a href="/enseignant/login" class="forgot-password-link">Se connecter</a></p>
       </form>
     </div>

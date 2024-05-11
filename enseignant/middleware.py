@@ -9,6 +9,6 @@ class AuthenticatedUserMiddleware:
         # Check if user is authenticated
         if request.user.is_authenticated:
             # If user is authenticated and trying to access sign-up or login pages, redirect
-            if request.path in [reverse('sign_up_enseignant'), reverse('login_enseignant')]:
+            if request.path in [reverse('sign_up_enseignant'), reverse('login_enseignant'), reverse('index')]:
                 return redirect('home_enseignant')  # You can replace 'home' with the URL name of the page you want to redirect to
         return self.get_response(request)
