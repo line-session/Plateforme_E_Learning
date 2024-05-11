@@ -8,6 +8,7 @@ from django.contrib.auth.models import User, Group
 from .admin import model_Cours, model_Devoir
 from django.db.models import Q
 from django.utils.text import slugify
+from django.core.files.storage import default_storage
 
 # Create your views here.
 @login_required(login_url='/enseignant/login')
@@ -152,15 +153,24 @@ def update_course(request, id):
         return render(request, 'cours_t/update.html', {'start': True, 'course': course})
 
     if request.method == "POST":
+        last_image = course.image_file
+        last_video = course.video_file
+
         course.title = request.POST.get('title')
         course.subject = request.POST.get('subject')
         course.description = request.POST.get('description')
         course.classe = request.POST.get('classe')
         course.image_file = request.FILES.get('image')
         course.video_file = request.FILES.get('video')
-        
+
         try:
             course.save()
+
+            if last_image:
+                default_storage.delete(last_image.name)
+            if last_video:
+                default_storage.delete(last_video.name)
+
             return redirect(f'/enseignant/cours/media/{id}')
         except:
             return redirect(f'/enseignant/cours/media/{id}')
