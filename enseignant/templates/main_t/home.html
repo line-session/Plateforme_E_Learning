@@ -5,7 +5,7 @@
 {% block content %}
 {% load static %}
 <div class="container text-center mt-5">
-    <h1>Welcome Dr {{ user.last_name }} to our E-Learning Platform</h1>
+    <h1>Welcome Dr {{ user.last_name|capfirst }} to our E-Learning Platform</h1>
     <p>As a student, you have access to a wide range of courses to enhance your learning experience.</p>
     <a href="/enseignant/cours" class="btn btn-outline-primary">Poursuivre vers les cours</a>
 </div>

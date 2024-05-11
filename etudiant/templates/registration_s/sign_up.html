@@ -1,0 +1,94 @@
+{% extends 'main_s/base.html' %}
+{% block title %} Sign-up | Etudiant {% endblock %}
+
+{% block content %}
+{% if exist %}
+<div class="container">
+    <div class="login-container border-primary">
+      <h2 class="login-title">Portail Etudiant</h2>
+      <form action="/etudiant/sign-up" method="post">
+          {% csrf_token %}
+          <div class="alert alert-warning" role="alert">Compte existant</div>
+          <div class="mb-3">
+            <input type="text" required class="form-control" name="username" placeholder="Numero Etudiant" value="{{ username }}">
+          </div>
+          <div class="mb-3">
+            <input type="text" required class="form-control" name="first_name" placeholder="Prenom" value="{{ first_name }}">
+          </div>
+          <div class="mb-3">
+            <input type="text" required class="form-control" name="last_name" placeholder="Nom" value="{{ last_name }}">
+          </div>
+          <div class="mb-3">
+            <input type="email" required class="form-control" name="email" placeholder="Email" value="{{ email }}">
+          </div>
+          <div class="mb-3">
+            <input type="password" required class="form-control" name="password1" placeholder="Mot de passe">
+          </div>
+          <div class="mb-3">
+            <input type="password" required class="form-control" name="password2" placeholder="Confirmer Mot de passe">
+          </div>
+          <button type="submit" class="btn btn-outline-primary w-100">S'inscrire</button>
+          <p class="text-center mt-3">Vous avez un compte? <a href="/etudiant/login" class="forgot-password-link">Se connecter</a></p>
+      </form>
+    </div>
+  </div>
+{% elif error %}
+<div class="container">
+    <div class="login-container border-primary">
+      <h2 class="login-title">Portail Etudiant</h2>
+      <form action="/etudiant/sign-up" method="post">
+          {% csrf_token %}
+          <div class="alert alert-danger" role="alert"> Mot de passe Incorrect</div>
+          <div class="mb-3">
+            <input type="text" required class="form-control" name="username" placeholder="Numero Etudiant" value="{{ username }}">
+          </div>
+          <div class="mb-3">
+            <input type="text" required class="form-control" name="first_name" placeholder="Prenom" value="{{ first_name }}">
+          </div>
+          <div class="mb-3">
+            <input type="text" required class="form-control" name="last_name" placeholder="Nom" value="{{ last_name }}">
+          </div>
+          <div class="mb-3">
+            <input type="email" required="true" class="form-control" name="email" placeholder="Email" value="{{ email }}">
+          </div>
+          <div class="mb-3">
+            <input type="password" required class="form-control" name="password1" placeholder="Mot de passe">
+          </div>
+          <div class="mb-3">
+            <input type="password" required class="form-control" name="password2" placeholder="Confirmer Mot de passe">
+          </div>
+          <button type="submit" class="btn btn-outline-primary w-100">S'inscrire</button>
+          <p class="text-center mt-3">Vous avez un compte? <a href="/etudiant/login" class="forgot-password-link">Se connecter</a></p>
+      </form>
+    </div>
+  </div>
+{% else %}
+<div class="container">
+    <div class="login-container border-primary">
+      <h2 class="login-title">Portail Etudiant</h2>
+      <form action="/etudiant/sign-up" method="post">
+          {% csrf_token %}
+          <div class="mb-3">
+            <input type="text" required class="form-control" name="username" placeholder="Numero Etudiant" value="{{ username }}">
+          </div>
+          <div class="mb-3">
+            <input type="text" required class="form-control" name="first_name" placeholder="Prenom" value="{{ first_name }}">
+          </div>
+          <div class="mb-3">
+            <input type="text" required class="form-control" name="last_name" placeholder="Nom" value="{{ last_name }}">
+          </div>
+          <div class="mb-3">
+            <input type="email" required="true" class="form-control" name="email" placeholder="Email" value="{{ email }}">
+          </div>
+          <div class="mb-3">
+            <input type="password" required class="form-control" name="password1" placeholder="Mot de passe">
+          </div>
+          <div class="mb-3">
+            <input type="password" required class="form-control" name="password2" placeholder="Confirmer Mot de passe">
+          </div>
+          <button type="submit" class="btn btn-outline-primary w-100">S'inscrire</button>
+          <p class="text-center mt-3">Vous avez un compte? <a href="/etudiant/login" class="forgot-password-link">Se connecter</a></p>
+      </form>
+    </div>
+{% endif %}
+{% endblock %}

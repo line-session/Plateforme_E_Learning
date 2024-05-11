@@ -1,0 +1,41 @@
+{% extends 'main_s/base.html' %}
+{% block title %} Login | Etudiant {% endblock %}
+
+{% block content %}
+{% if error %}
+<div class="container">
+  <div class="login-container border-primary">
+    <h2 class="login-title">Portal Etudiant</h2>
+    <form method="post">
+      {% csrf_token %}
+      <div class="alert alert-danger" role="alert"> Informations Incorrectes </div>
+      <div class="mb-3">
+        <input type="text" required class="form-control" id="email" name ="username" placeholder="Numero Etudiant">
+      </div>
+      <div class="mb-3">
+        <input type="password" required class="form-control" id="password" name="password" placeholder="Password">
+      </div>
+      <button type="submit" class="btn btn-outline-primary w-100">Login</button>
+      <p class="text-center mt-3">Vous n'avez pas de compte? <a href="/etudiant/sign-up" class="forgot-password-link">Inscrivez-vous</a></p>
+    </form>
+  </div>
+</div>
+{% else %}
+    <div class="container">
+        <div class="login-container border-primary">
+          <h2 class="login-title">Portal Etudiant</h2>
+          <form method="post"> 
+            {% csrf_token %}
+            <div class="mb-3">
+              <input type="text" required class="form-control" id="email" name ="username" placeholder="Numero Etudiant">
+            </div>
+            <div class="mb-3">
+              <input type="password" required class="form-control" id="password" name="password" placeholder="Password">
+            </div>
+            <button type="submit" class="btn btn-outline-primary w-100">Login</button>
+            <p class="text-center mt-3">Vous n'avez pas de compte? <a href="/etudiant/sign-up" class="forgot-password-link">Inscrivez-vous</a></p>
+          </form>
+        </div>
+      </div>
+{% endif %}
+{% endblock %}
