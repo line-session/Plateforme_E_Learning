@@ -180,7 +180,8 @@ def search(request):
             Q(description__icontains=query) |
             Q(subject__icontains=query) |
             Q(teacher__first_name__icontains=query) |
-            Q(teacher__last_name__icontains=query)
+            Q(teacher__last_name__icontains=query) |
+            Q(classe__icontains=query)
         )
         if result:
             need = [{

@@ -35,12 +35,12 @@
 </div>
 
 <div class="row row-cols-1 row-cols-md-3 g-4 py-5">
-    {% for cours in all_cours %}
+{% for cours in all_cours %}
     <div class="col">
         <div class="mb-3">
             <span class="badge {% if cours.classe == 'DUT1' %} bg-primary {% else %} bg-success {% endif %}">{{ cours.classe }}</span>
         </div>
-        <div class="card border-primary">
+        <div class="card {% if cours.classe == 'DUT1' %} border-primary {% else %} border-success {% endif %}">
             {% if cours.image_file %}
                 {% with image_url=cours.image_file.url %}
                     <img src="{{ image_url }}" class="card-img-top" alt="{{ cours.title }}">
@@ -53,8 +53,8 @@
                 <p class="card-text">{{ cours.description|truncatewords:10 }}</p>
             </div>
             <div class="mb-5 d-flex justify-content-around">
-                <h3>{{ cours.subject }}</h3>
-                <button class="btn btn-outline-primary rounded-5">
+                <h3 class="{% if cours.classe == 'DUT1' %} text-primary {% else %} text-success {% endif %}">{{ cours.subject }}</h3>
+                <button class="btn {% if cours.classe == 'DUT1' %} btn-outline-primary {% else %} btn-outline-success {% endif %} rounded-5">
                     {% if cours.id %}
                         <a href="{% url 'media_course' cours.id %}" style="color: inherit; text-decoration: none;">Suivre Cours</a>
                     {% else %}

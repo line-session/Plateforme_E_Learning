@@ -23,6 +23,7 @@ def sign_up(request):
         Vlast = request.POST.get('last_name').strip()
         Vpassword1 = request.POST.get('password1')
         Vpassword2 = request.POST.get('password2')
+        v_classroom = request.POST.get('classe')
         
         if Vpassword1 != Vpassword2 or len(Vpassword1) < 8:
             return render(request, 'registration_s/sign_up.html', {'error':True, 'username':Vusername, 'email':Vemail, 'first_name':Vfirst, 'last_name':Vlast})
@@ -33,6 +34,8 @@ def sign_up(request):
                 user = form.save()
                 student_group = Group.objects.get(name='Students')
                 student_group.user_set.add(user)
+                classroom_group = Group.objects.get(name=v_classroom)
+                classroom_group.user_set.add(user)
                 login(request, user)
                 return redirect('/etudiant/home')
             else:
@@ -57,3 +60,154 @@ def login_views(request):
 def logout_views(request):
     logout(request)
     return redirect('/etudiant/login')
+
+@login_required(login_url='/etudiant/login')
+def cours(request):
+    if request.method == "GET":
+        tri = request.GET.get('tri')
+        if tri:
+            v_teacher = request.user
+            ensemble = model_Cours.objects.filter(teacher=v_teacher).order_by('-id')  # Tri par défaut
+            if tri == 'dut1':
+                ensemble = ensemble.filter(classe='DUT1')
+            elif tri == 'dut2':
+                ensemble = ensemble.filter(classe='DUT2')
+            if ensemble.exists():
+                need = [{
+                    "id": cours.id,
+                    "title": cours.title,
+                    "description": cours.description,
+                    "subject": cours.subject,
+                    "classe": cours.classe,
+                    "image_file": cours.image_file,
+                } for cours in ensemble]
+            else:
+                need = []
+            return render(request, 'cours_s/cours.html', {'all_cours': need})
+        else:
+            v_student = request.user
+            classroom_dut1 = v_student.groups.filter(name='DUT1').first()
+            classroom_dut2 = v_student.groups.filter(name='DUT2').first()
+            ensemble = model_Cours.objects.all().order_by('-id')
+            if ensemble.exists():
+                courses_for_dut1 = []
+                courses_for_dut2 = []
+                for courses in ensemble:
+                    if classroom_dut1 is not None and courses.classe == 'DUT1':
+                        need = {
+                            "id": courses.id,
+                            "title": courses.title,
+                            "description": courses.description,
+                            "subject": courses.subject,
+                            "classe": courses.classe,
+                            "image_file": courses.image_file,
+                        }
+                        courses_for_dut1.append(need)
+                    if classroom_dut2 is not None and courses.classe == 'DUT2':
+                        need = {
+                            "id": courses.id,
+                            "title": courses.title,
+                            "description": courses.description,
+                            "subject": courses.subject,
+                            "classe": courses.classe,
+                            "image_file": courses.image_file,
+                        }
+                        courses_for_dut2.append(need)
+            else:
+                courses_for_dut1 = []
+                courses_for_dut2 = []
+            return render(request, 'cours_s/cours.html', {'courses_for_dut1': courses_for_dut1, 'courses_for_dut2':courses_for_dut2})
+    else: 
+        return redirect('/etudiant/home')
+
+def video_page(request, id):
+    course = get_object_or_404(model_Cours, id=id)
+
+    if course.video_file:
+        video_url = course.video_file.url
+        return render(request, 'cours_s/video_page.html', {'course': course, 'video_url': video_url})
+    else:
+        return render(request, 'cours_s/video_page.html', {'course': course, 'video_url': None})
+
+def search(request):
+    if request.method == "POST":
+        query = request.POST.get('query')
+        user = request.user
+        classroom_dut1 = user.groups.filter(name='DUT1').first()
+        classroom_dut2 = user.groups.filter(name='DUT2').first()
+        ensemble = model_Cours.objects.all().order_by('-id')
+        if ensemble.exists():
+            courses_for_dut1 = []
+            courses_for_dut2 = []
+            for courses in ensemble:
+                if classroom_dut1 is not None and courses.classe == 'DUT1':
+                    need = {
+                        "id": courses.id,
+                        "title": courses.title,
+                        "description": courses.description,
+                        "subject": courses.subject,
+                        "classe": courses.classe,
+                        "image_file": courses.image_file,
+                    }
+                    courses_for_dut1.append(need)
+                if classroom_dut2 is not None and courses.classe == 'DUT2':
+                    need = {
+                        "id": courses.id,
+                        "title": courses.title,
+                        "description": courses.description,
+                        "subject": courses.subject,
+                        "classe": courses.classe,
+                        "image_file": courses.image_file,
+                    }
+                    courses_for_dut2.append(need)
+        else:
+            courses_for_dut1 = []
+            courses_for_dut2 = []
+        
+        result_dut1 = model_Cours.objects.filter(
+            id__in=[c['id'] for c in courses_for_dut1] 
+        )
+        result_dut2 = model_Cours.objects.filter(
+            id__in=[c['id'] for c in courses_for_dut2] 
+        )
+        
+        result_dut1 = result_dut1.filter(
+            Q(title__icontains=query) |
+            Q(description__icontains=query) |
+            Q(subject__icontains=query) |
+            Q(teacher__first_name__icontains=query) |
+            Q(teacher__last_name__icontains=query)
+        )
+        result_dut2 = result_dut2.filter(
+            Q(title__icontains=query) |
+            Q(description__icontains=query) |
+            Q(subject__icontains=query) |
+            Q(teacher__first_name__icontains=query) |
+            Q(teacher__last_name__icontains=query)
+        )
+        
+        if result_dut1:
+            need = [{
+                "id": cours.id,
+                "title": cours.title,
+                "description": cours.description,
+                "subject": cours.subject,
+                "classe": cours.classe,
+                "image_file": cours.image_file,
+            } for cours in result_dut1 ]
+            return render(request, 'cours_s/search.html', {'courses_for_dut1': need, 'query':query})
+        if result_dut2:
+            need = [{
+                "id": cours.id,
+                "title": cours.title,
+                "description": cours.description,
+                "subject": cours.subject,
+                "classe": cours.classe,
+                "image_file": cours.image_file,
+            } for cours in result_dut2 ]
+            return render(request, 'cours_s/search.html', {'courses_for_dut2': need, 'query':query})
+        else:
+            return render(request, 'cours_s/search.html', {'all_cours': [], 'not_found':True, 'query':query})
+    else:
+        return redirect('/etudiant/cours')
+

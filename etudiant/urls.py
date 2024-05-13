@@ -7,4 +7,8 @@ urlpatterns = [
     path('sign-up', views.sign_up, name='sign_up_etudiant'),
     path('login', views.login_views, name='login_etudiant'),
     path('handle', views.logout_views, name='logout_etudiant'),
+    path('cours', views.cours, name='cours_etudiant'),
+    path('cours/search', views.search, name='search_s'),
+    path('cours/media/<int:id>', views.video_page, name='media_course_s'),
+
 ]
