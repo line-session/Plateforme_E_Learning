@@ -10,5 +10,7 @@ urlpatterns = [
     path('cours', views.cours, name='cours_etudiant'),
     path('cours/search', views.search, name='search_s'),
     path('cours/media/<int:id>', views.video_page, name='media_course_s'),
+    path('devoir/', views.display_devoir_s, name='devoir_s'),
+    path('devoir/download/<int:id>', views.download_devoir_s, name='download_s'),
 
 ]

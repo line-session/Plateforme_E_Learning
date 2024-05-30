@@ -1,0 +1,45 @@
+{% extends 'main_s/base.html' %}
+
+{% block title %} Devoir | Etudiant {% endblock %}
+{% block content %}
+    {% for devoir in devoir_for_dut1 %}
+    <div class="mb-3 mt-3">
+        <span class="badge {% if devoir.classe == 'DUT1' %} bg-primary {% else %} bg-success {% endif %}">{{ devoir.classe }}</span>
+    </div>
+    <div class="card text-center rounded-0 {% if devoir.classe == 'DUT1' %} border-primary {% else %} border-success {% endif %}">
+        <div class="card-header">
+          Dr {{ devoir.teacher.first_name }} {{ devoir.teacher.last_name }}
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{ devoir.title|capfirst }}</h5>
+          <p class="card-text">{{ devoir.description|capfirst }}</p>
+          <div class="col">
+              <a href="{% url 'download_s' devoir.id %}" class="btn {% if devoir.classe == 'DUT1' %} btn-outline-primary {% else %} btn-outline-success {% endif %} rounded-5">Télécharger</a>
+          </div>
+        </div>
+        <div class="card-footer text-body-secondary">
+           {% if devoir.duration > 1 %} {{ devoir.duration }} heures de temps {% else %} {{ devoir.duration }} heure de temps {% endif %} 
+        </div>
+      </div>
+    {% endfor %}
+    {% for devoir in devoir_for_dut2 %}
+    <div class="mb-3 mt-3">
+        <span class="badge {% if devoir.classe == 'DUT1' %} bg-primary {% else %} bg-success {% endif %}">{{ devoir.classe }}</span>
+    </div>
+    <div class="card text-center rounded-0 {% if devoir.classe == 'DUT1' %} border-primary {% else %} border-success {% endif %}">
+        <div class="card-header">
+          Dr {{ devoir.teacher.first_name }} {{ devoir.teacher.last_name }}
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{ devoir.title|capfirst }}</h5>
+          <p class="card-text">{{ devoir.description|capfirst }}</p>
+          <div class="col">
+              <a href="{% url 'download_s' devoir.id %}" class="btn {% if devoir.classe == 'DUT1' %} btn-outline-primary {% else %} btn-outline-success {% endif %} rounded-5">Télécharger</a>
+          </div>
+        </div>
+        <div class="card-footer text-body-secondary">
+           {% if devoir.duration > 1 %} {{ devoir.duration }} heures de temps {% else %} {{ devoir.duration }} heure de temps {% endif %} 
+        </div>
+      </div>
+    {% endfor %}
+{% endblock %}

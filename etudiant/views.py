@@ -211,3 +211,55 @@ def search(request):
     else:
         return redirect('/etudiant/cours')
 
+def display_devoir_s(request):
+    if request.method == "GET":
+        v_student = request.user
+        classroom_dut1 = v_student.groups.filter(name='DUT1').first()
+        classroom_dut2 = v_student.groups.filter(name='DUT2').first()
+        ensemble = model_Devoir.objects.all().order_by('-id')
+        if ensemble.exists():
+            devoir_for_dut1 = []
+            devoir_for_dut2 = []
+            for devoir in ensemble:
+                if classroom_dut1 is not None and devoir.classe == 'DUT1':
+                    need = {
+                        "id": devoir.id,
+                        "title": devoir.title,
+                        "description": devoir.description,
+                        "subject": devoir.subject,
+                        "classe": devoir.classe,
+                        "teacher": devoir.teacher,
+                        "document_file": devoir.document_file,
+                    }
+                    devoir_for_dut1.append(need)
+                if classroom_dut2 is not None and devoir.classe == 'DUT2':
+                    need = {
+                        "id": devoir.id,
+                        "title": devoir.title,
+                        "description": devoir.description,
+                        "subject": devoir.subject,
+                        "classe": devoir.classe,
+                        "teacher": devoir.teacher,
+                        "document_file": devoir.document_file,
+                    }
+                    devoir_for_dut2.append(need)
+        else:
+            devoir_for_dut1 = []
+            devoir_for_dut2 = []
+        return render(request, 'devoir_s/devoir.html', {'devoir_for_dut1': devoir_for_dut1, 'devoir_for_dut2':devoir_for_dut2})
+    else: 
+        return redirect('/etudiant/home')
+
+def download_devoir_s(request, id):
+    devoir = get_object_or_404(model_Devoir, pk=id)
+    path = devoir.document_file.path
+
+    _, extension = os.path.splitext(path)
+
+    with open(path, 'rb') as document_file:
+        response = HttpResponse(document_file.read(), content_type='application/octet-stream')
+
+    filename = slugify(devoir.title) + extension.lower() 
+    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+
+    return response
